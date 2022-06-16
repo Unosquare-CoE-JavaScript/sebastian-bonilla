@@ -6,6 +6,7 @@ import {
 import OrderEntry from "../OrderEntry";
 import { rest } from "msw";
 import { server } from "../../../mocks/server";
+import { OrderPhasesProvider } from "../../../contexts/OrderPhases";
 
 test.only("handles error for scoops and toppings routes", async () => {
   server.resetHandlers(
@@ -17,7 +18,11 @@ test.only("handles error for scoops and toppings routes", async () => {
     })
   );
 
-  render(<OrderEntry />);
+  render(
+    <OrderPhasesProvider>
+      <OrderEntry />
+    </OrderPhasesProvider>
+  );
 
   await waitFor(async () => {
     const alerts = await screen.findAllByRole("alert");

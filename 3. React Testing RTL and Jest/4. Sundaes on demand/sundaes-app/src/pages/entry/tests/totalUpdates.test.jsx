@@ -2,6 +2,7 @@ import { render, screen } from "../../../test-utils/testing-library-utils";
 import userEvent from "@testing-library/user-event";
 import Options from "../Options";
 import OrderEntry from "../OrderEntry";
+import { OrderPhasesProvider } from "../../../contexts/OrderPhases";
 
 test("update scoop subtotal when scoops change", async () => {
   render(<Options optionType="scoops" />);
@@ -59,7 +60,11 @@ test("update toppings subtotal when toppings change", async () => {
 
 describe("grand total", () => {
   test("grand total starts at $0.00", () => {
-    render(<OrderEntry />);
+    render(
+      <OrderPhasesProvider>
+        <OrderEntry />
+      </OrderPhasesProvider>
+    );
 
     const grandTotalText = screen.getByText("Grand total: $", {
       exact: false,
@@ -69,7 +74,11 @@ describe("grand total", () => {
   });
 
   test("grand total update properly if scoop is added first", async () => {
-    render(<OrderEntry />);
+    render(
+      <OrderPhasesProvider>
+        <OrderEntry />
+      </OrderPhasesProvider>
+    );
 
     const grandTotalText = screen.getByText("Grand total: $", {
       exact: false,
@@ -95,7 +104,11 @@ describe("grand total", () => {
   });
 
   test("grand total update properly if topping is added first", async () => {
-    render(<OrderEntry />);
+    render(
+      <OrderPhasesProvider>
+        <OrderEntry />
+      </OrderPhasesProvider>
+    );
 
     const grandTotalText = screen.getByText("Grand total: $", {
       exact: false,
@@ -120,7 +133,11 @@ describe("grand total", () => {
   });
 
   test("grand total update properly if item is removed", async () => {
-    render(<OrderEntry />);
+    render(
+      <OrderPhasesProvider>
+        <OrderEntry />
+      </OrderPhasesProvider>
+    );
 
     const grandTotalText = screen.getByText("Grand total: $", {
       exact: false,
