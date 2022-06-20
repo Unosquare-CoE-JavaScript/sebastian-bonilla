@@ -1,10 +1,43 @@
+import { useState } from "react";
 import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Row from "react-bootstrap/Row";
 
+function isValidInput(inputNumber) {
+  // check if new value has an error
+  if (Number.isNaN(inputNumber)) {
+    return false;
+  } else {
+    if (parseInt(inputNumber) < 0) {
+      return false;
+    } else if (parseInt(inputNumber) > 10) {
+      return false;
+    } else if (inputNumber.includes(".")) {
+      return false;
+    }
+  }
+  return true;
+}
+
 export default function ScoopOption({ name, imagePath, updateItemCount }) {
+  const [inputError, setInputError] = useState(false);
+  const [numberInput, setNumberInput] = useState("0");
+
   const handleChange = (event) => {
-    updateItemCount(name, event.target.value);
+    if (isValidInput(event.target.value)) {
+      if (event.target.value.toString().length > 0) {
+        updateItemCount(name, event.target.value);
+      }
+
+      setNumberInput(event.target.value);
+      setInputError(false);
+    } else {
+      if (numberInput.toString()) {
+        updateItemCount(name, numberInput);
+      }
+
+      setInputError(true);
+    }
   };
 
   return (
@@ -31,6 +64,7 @@ export default function ScoopOption({ name, imagePath, updateItemCount }) {
         </Form.Label>
         <Col xs="5" style={{ textAlign: "left" }}>
           <Form.Control
+            className={inputError ? "is-invalid" : ""}
             type="number"
             defaultValue={0}
             onChange={handleChange}

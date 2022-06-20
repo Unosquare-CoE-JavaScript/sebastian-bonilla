@@ -41,7 +41,7 @@ export default function SummaryForm() {
 
         <Button
           variant="primary"
-          type="submit"
+          type="button"
           disabled={!agreeTC}
           onClick={() => nextPhase()}
         >

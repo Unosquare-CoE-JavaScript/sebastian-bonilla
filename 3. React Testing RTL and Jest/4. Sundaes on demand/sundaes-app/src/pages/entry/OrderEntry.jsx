@@ -12,7 +12,21 @@ export default function OrderEntry() {
       <Options optionType="scoops" />
       <Options optionType="toppings" />
       <h2>Grand total: {orderDetails.totals["grandTotal"]}</h2>
-      <Button variant="primary" type="submit" onClick={() => nextPhase()}>
+      <Button
+        variant="primary"
+        type="button"
+        onClick={() => nextPhase()}
+        disabled={
+          Array.from(orderDetails.scoops.values()).reduce(
+            (acc, val) => acc + val,
+            0
+          ) === 0 &&
+          Array.from(orderDetails.toppings.values()).reduce(
+            (acc, val) => acc + val,
+            0
+          ) === 0
+        }
+      >
         Order Sundae!
       </Button>
     </div>
