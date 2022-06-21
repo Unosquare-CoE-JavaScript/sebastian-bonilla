@@ -4,9 +4,12 @@ import Button from "react-bootstrap/Button";
 
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
+import OrderSummary from "./OrderSummary";
+import { useOrderPhases } from "../../contexts/OrderPhases";
 
 export default function SummaryForm() {
   const [agreeTC, updateAgreeTC] = React.useState(false);
+  const [, nextPhase] = useOrderPhases();
 
   const popover = (
     <Popover id="popover-basic">
@@ -24,19 +27,27 @@ export default function SummaryForm() {
   );
 
   return (
-    <Form>
-      <Form.Group controlId="terms-and-conditions">
-        <Form.Check
-          type="checkbox"
-          checked={agreeTC}
-          onChange={(e) => updateAgreeTC(e.target.checked)}
-          label={checkboxLabel}
-        />
-      </Form.Group>
+    <>
+      <OrderSummary />
+      <Form>
+        <Form.Group controlId="terms-and-conditions">
+          <Form.Check
+            type="checkbox"
+            checked={agreeTC}
+            onChange={(e) => updateAgreeTC(e.target.checked)}
+            label={checkboxLabel}
+          />
+        </Form.Group>
 
-      <Button variant="primary" type="submit" disabled={!agreeTC}>
-        Confirm order
-      </Button>
-    </Form>
+        <Button
+          variant="primary"
+          type="button"
+          disabled={!agreeTC}
+          onClick={() => nextPhase()}
+        >
+          Confirm order
+        </Button>
+      </Form>
+    </>
   );
 }

@@ -1,9 +1,17 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import SummaryForm from "../SummaryForm";
+import { OrderPhasesProvider } from "../../../contexts/OrderPhases";
+import { OrderDetailsProvider } from "../../../contexts/OrderDetails";
 
 test("terms and condition flow test", async () => {
-  render(<SummaryForm />);
+  render(
+    <OrderDetailsProvider>
+      <OrderPhasesProvider>
+        <SummaryForm />
+      </OrderPhasesProvider>
+    </OrderDetailsProvider>
+  );
   // set up userEvent
   const user = userEvent.setup();
 
@@ -32,7 +40,13 @@ test("terms and condition flow test", async () => {
 });
 
 test("popover responds to hover", async () => {
-  render(<SummaryForm />);
+  render(
+    <OrderDetailsProvider>
+      <OrderPhasesProvider>
+        <SummaryForm />
+      </OrderPhasesProvider>
+    </OrderDetailsProvider>
+  );
   // set up userEvent
   const user = userEvent.setup();
 
