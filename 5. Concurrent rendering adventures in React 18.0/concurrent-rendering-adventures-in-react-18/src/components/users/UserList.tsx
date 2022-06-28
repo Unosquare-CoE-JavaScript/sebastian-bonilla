@@ -1,16 +1,19 @@
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
 import useSWR from 'swr';
 import type { Account } from '../../types';
 import { UserDetails } from './UserDetails';
 
 export function UserList() {
+  const [isPending, startTransition] = useTransition();
   const [selectedUser, setSelectedUser] = useState<Account | null>(null);
+  const [selectedUserId, setSelectedUserId] = useState(NaN);
+
   const { data } = useSWR<Account[], Error>(
     `${process.env.REACT_APP_API_BASE}/accounts`
   );
 
   return (
-    <div className="row">
+    <div className="row"> 
       <h2 className="text-center mt-5">Users</h2>
 
       <div className="col-3 g-2">
@@ -24,8 +27,12 @@ export function UserList() {
             >
               <button
                 className="btn shadow-none"
-                onClick={() => setSelectedUser(user)}
+                onClick={() => {
+                  setSelectedUserId(user.id);
+                  startTransition(() => setSelectedUser(user))}
+                }
               >
+                {isPending && selectedUserId === user.id && 'Loading'}
                 {user.firstname}
                 &nbsp;
                 {user.surname}

@@ -25,3 +25,4 @@ export function MovieDetails({ movieId }: Props) {
     </div>
   );
 }
+ 
